@@ -1,10 +1,81 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+    <title>Blog</title>
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <!-- Medium Style Editor -->
+    <!-- yabwe/medium-editor -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
+    <!-- jquery -->
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="{% static 'javascript/color_change.js' %}"></script>
+  
+  </head>
+  <body class="colors">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light techfont custom-navbar">
+      <div class="container">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="navbar-brand bigbrand" href="{% url 'post_list' %}">My blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Github</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">LinkedIn</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'post_new' %}">New Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Welcome: {{ user.username }}</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="navbar-right" href="{% url 'login' %}">login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="content container">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="blog_posts">
+            {% block content %}
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
